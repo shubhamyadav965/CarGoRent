@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import './App.css'
 import Navbar from './components/Navbar'
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import CarDetails from './pages/CarDetails';
 import Cars from './pages/Cars';
 import MyBookings from './pages/MyBookings';  
+import Footer from './components/Footer';
 
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
         <Route path='/cars' element={<Cars />} />
         <Route path='/my-bookings' element={<MyBookings />} />
       </Routes>
+      {!isOwnerPath && <Footer />}
     </>
   )
 }
