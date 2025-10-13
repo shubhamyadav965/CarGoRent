@@ -8,7 +8,7 @@ const ManageBookings = () => {
   const fetchOwnerBookings = async () => {
     setbookings(dummyMyBookingsData);
   };
-  useState(() => {
+  React.useEffect(() => {
     fetchOwnerBookings();
   }, []);
   return (
@@ -62,7 +62,7 @@ const ManageBookings = () => {
                     >
                       <option value="pending">Pending</option>
                       <option value="cancelled">Cancelled</option>
-                      <option value="confirmed">Confirmeds</option>
+                      <option value="confirmed">Confirmed</option>
                     </select>
                   ) : (
                     <span

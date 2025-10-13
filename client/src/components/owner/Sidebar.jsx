@@ -15,7 +15,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="relative min-h-screen md: flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm">
+    <div className="relative min-h-screen md:flex flex-col items-center pt-8 max-w-13 md:max-w-60 w-full border-r border-borderColor text-sm">
       <div className="group relative">
         <label htmlFor="image">
           <img
@@ -42,7 +42,7 @@ const Sidebar = () => {
       </div>
       {image && (
         <button
-          className="absolute top-0 right-0 flex p-2 gap-1 bg:primary/10 text-primary cursor-pointer "
+          className="absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer "
           onClick={updateImage}
         >
           Save <img src={assets.check_icon} width={13} alt="" />

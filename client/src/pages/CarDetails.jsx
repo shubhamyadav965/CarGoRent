@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { assets, dummyCarData } from "../assets/assets";
 import Loader from "../components/Loader";
@@ -128,7 +128,7 @@ const CarDetails = () => {
             <input
               type="date"
               className="border border-borderColor px-3 py-2 rounded-lg"
-              id="pickup-date"
+              id="return-date"
             />
           </div>
 

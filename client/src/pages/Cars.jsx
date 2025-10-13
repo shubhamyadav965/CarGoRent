@@ -25,7 +25,7 @@ const Cars = () => {
             type="text"
             value={input}
             placeholder="Search by make, model, or features"
-            className="w-full h-full outline-none text-gray-  500"
+            className="w-full h-full outline-none text-gray-500"
           />
           <img
             src={assets.filter_icon}

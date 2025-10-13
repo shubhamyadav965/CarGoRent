@@ -25,7 +25,7 @@ const Hero = () => {
               ))}
             </select>
             <p className="px-1 text-sm text-gray-500">
-              {pickupLocation ? pickupLocation : "Please Select Locationk"}
+              {pickupLocation ? pickupLocation : "Please Select Location"}
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">

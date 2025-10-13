@@ -1,6 +1,6 @@
-import React, { use } from "react";
+import React from "react";
 import { assets, dummyUserData } from "../../assets/assets";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const NavbarOwner = () => {
   const user = dummyUserData;

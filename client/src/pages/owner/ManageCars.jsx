@@ -58,10 +58,10 @@ const ManageCars = () => {
                     className={`px-3 py-1 rounded-full text-xs ${
                       car.isAvaliable
                         ? "bg-green-100 text-green-500"
-                        : "bg-red-100 text-red-500k"
+                        : "bg-red-100 text-red-500"
                     }`}
                   >
-                    {car.isAvaliable ? "Avaliable" : "UnAvaliable"}
+                    {car.isAvaliable ? "Available" : "Unavailable"}
                   </span>
                 </td>
 
