@@ -12,8 +12,13 @@ const Navbar = ({ setShowLogin }) => {
         location.pathname === "/" ? "bg-light" : "bg-white"
       }`}
     >
-      <Link to="/">
-        <img src={assets.logo} alt="Logo" className="h-8" />
+      <Link to="/" className="flex items-center">
+        <img
+          src={assets.logo}
+          alt="CarGoRent Logo"
+          className="h-28 md:h-40 w-auto object-contain"
+          style={{ mixBlendMode: "multiply" }}
+        />
       </Link>
 
       <div
@@ -22,29 +27,37 @@ const Navbar = ({ setShowLogin }) => {
         } ${open ? "max-sm:translate-x-0" : "max-sm:-translate-x-full"}`}
       >
         {menuLinks.map((link, index) => (
-          <Link key={index} to={link.path}>
+          <Link
+            key={index}
+            to={link.path}
+            className={`font-medium transition-colors hover:text-primary ${
+              location.pathname === link.path ? "text-primary" : "text-gray-700"
+            }`}
+          >
             {link.name}
           </Link>
         ))}
-        <div className="hidden lg:flex item-center text-sm gap-2 border border-borderColor rounded-full px-3 max-w-64">
+        <div className="hidden lg:flex item-center text-sm gap-2 border border-gray-200 rounded-full px-3 max-w-64 focus-within:border-primary transition-colors">
           <input
             type="text"
             name="search"
             id=""
-            className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
-            placeholder="Search Products"
+            className="py-1.5 w-full bg-transparent outline-none placeholder-gray-400"
+            placeholder="Search Cars"
           />
-          <img src={assets.search_icon} alt="search" />
+          <img src={assets.search_icon} alt="search" className="opacity-50" />
         </div>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <button onClick={() => navigate("/owner")} className="cursor-pointer">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <button
+            onClick={() => navigate("/owner")}
+            className="cursor-pointer font-medium text-gray-700 hover:text-primary transition-colors"
+          >
             Dashboard
           </button>
           <button
             onClick={() => setShowLogin(true)}
-            className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg "
+            className="cursor-pointer px-8 py-2.5 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary-dull transition-all text-white rounded-full shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 font-medium"
           >
-            {" "}
             Login
           </button>
         </div>

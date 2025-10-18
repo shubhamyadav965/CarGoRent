@@ -60,27 +60,27 @@ const Login = ({ setShowLogin }) => {
           />
         </div>
         {state === "register" ? (
-          <p>
+          <p className="text-sm">
             Already have account?{" "}
             <span
               onClick={() => setState("login")}
-              className="text-primary cursor-pointer"
+              className="text-primary font-semibold cursor-pointer hover:text-primary-dark transition-colors"
             >
               click here
             </span>
           </p>
         ) : (
-          <p>
+          <p className="text-sm">
             Create an account?{" "}
             <span
               onClick={() => setState("register")}
-              className="text-primary cursor-pointer"
+              className="text-primary font-semibold cursor-pointer hover:text-primary-dark transition-colors"
             >
               click here
             </span>
           </p>
         )}
-        <button className="bg-primary hover:bg-blue-800 transition-all text-white w-full py-2 rounded-md cursor-pointer">
+        <button className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary-dull transition-all text-white w-full py-3 rounded-lg cursor-pointer font-semibold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40">
           {state === "register" ? "Create Account" : "Login"}
         </button>
       </form>
