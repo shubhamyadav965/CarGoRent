@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import connectDB from "./configs/db.js";
 import userRouter from "./routes/userRoutes.js";
+import ownerRouter from "./routes/ownerRoutes.js";
 
 // Inititalize express app
 const app = express();
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRouter);
+app.use("/api/owner", ownerRouter);
 
 const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
 
