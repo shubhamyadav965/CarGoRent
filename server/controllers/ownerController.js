@@ -1,8 +1,9 @@
-import ImageKit from "imagekit";
+import imagekit from "../configs/imageKit.js";
 import fs from "fs";
-
 import User from "../models/User.js";
-// import Car from "../models/Car.js";
+import Car from "../models/Car.js";
+import { response } from "express";
+import { format } from "path";
 
 //Change Role to Owner
 export const changeRoleToOwner = async (req, res) => {
@@ -20,7 +21,7 @@ export const changeRoleToOwner = async (req, res) => {
 export const addCar = async (req, res) => {
   try {
     const { _id } = req.user;
-    const car = JSON.parse(req.body.carData);
+    let car = JSON.parse(req.body.carData);
     const imageFile = req.file;
 
     if (!imageFile) {
@@ -30,25 +31,26 @@ export const addCar = async (req, res) => {
     // Read uploaded file
     const fileBuffer = fs.readFileSync(imageFile.path);
 
-    // Initialize ImageKit
-    const imagekit = new ImageKit({
-      publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
-      privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
-      urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
-    });
-
     // Upload image
     const uploadResponse = await imagekit.upload({
       file: fileBuffer,
       fileName: imageFile.originalname,
-      folder: "/cars"
+      folder: "/cars",
     });
 
     // Optimize image URL
-    const optimizedImageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/tr:w-1280,q-auto,f-webp${uploadResponse.filePath}`;
+    let optimizedImageUrl = imagekit.url({
+      path: uploadResponse.filePath,
+      transformation: [
+        { width: "1280" }, // Resize to width 1280px
+        { quality: "auto" }, // Auto compression for quality
+        { format: "webp" }, // Convert to modern webp format
+      ],
+    });
 
     // Create Car document
-    await Car.create({ ...car, owner: _id, image: optimizedImageUrl });
+    const image = optimizedImageUrl;
+    await Car.create({ ...car, owner: _id, image });
 
     // Remove temp file
     fs.unlinkSync(imageFile.path);
