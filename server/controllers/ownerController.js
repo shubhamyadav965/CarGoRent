@@ -61,3 +61,83 @@ export const addCar = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+// API to list owner cars
+export const getOwnerCars = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const cars = await Car.find({ owner: _id });
+    res.json({ success: true, cars });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to toggle car availability
+export const toggleCarAvailability = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { carId } = req.body;
+    const car = await Car.findById(carId);
+
+    // Check if the car belongs to the user
+    if (car.owner.toString() !== _id.toString()) {
+      return res.json({ success: false, message: "Not authorized" });
+    }
+    car.isAvailable = !car.isAvailable;
+    await car.save();
+    res.json({ success: true, message: "Availability toggled" });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to delete a car
+export const deleteCar = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { carId } = req.body;
+    const car = await Car.findById(carId);
+
+    // Check if the car belongs to the user
+    if (car.owner.toString() !== _id.toString()) {
+      return res.json({ success: false, message: "Not authorized" });
+    }
+
+    await Car.findByIdAndDelete(carId);
+    res.json({ success: true, message: "Car deleted successfully" });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to get Dashboard Data
+export const getDashboardData = async (req, res) => {
+  try {
+    const { _id, role } = req.user;
+    if (role !== "owner") {
+      return res.json({ success: false, message: "Not authorized" });
+    }
+    const cars = await Car.find({ owner: _id });
+    // Note: Uncomment when Booking model is ready
+    // const bookings = await Booking.find({ owner: _id }).populate('car').sort({ createdAt: -1 });
+    // const pendingBookings = bookings.filter(booking => booking.status === 'pending');
+    // const completedBookings = bookings.filter(booking => booking.status === 'confirmed');
+
+    const dashboardData = {
+      totalCars: cars.length,
+      // totalBookings: bookings.length,
+      // pendingBookings: pendingBookings.length,
+      // completedBookings: completedBookings.length,
+      // recentBookings: bookings.slice(0, 3),
+    };
+
+    res.json({ success: true, dashboardData });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
