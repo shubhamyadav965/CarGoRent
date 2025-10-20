@@ -15,7 +15,7 @@ const ManageBookings = () => {
     <div className="px-4 pt-10 md:px-10 w-full">
       <Title
         title="Manage Bookings"
-        subTitle="Track all customer bookings, approve or cancle requests, and manage bookings statuses."
+        subTitle="Track all customer bookings, approve or cancel requests, and manage bookings statuses."
       />
       <div className="max-w-3xl w-full rounded-md overflow-hidden border border-borderColor mt-6">
         <table className="w-full border-collapse text-left text-sm text-gray-600 ">
@@ -55,7 +55,7 @@ const ManageBookings = () => {
                   </span>
                 </td>
                 <td className="p-3">
-                  {booking.status == "pending" ? (
+                  {booking.status === "pending" ? (
                     <select
                       value={booking.status}
                       className="px-2 py-1.5 mt-1 text-gray-500 border border-borderColor rounded-md outline-none"

@@ -116,28 +116,57 @@ export const deleteCar = async (req, res) => {
 
 // API to get Dashboard Data
 export const getDashboardData = async (req, res) => {
-  try {
-    const { _id, role } = req.user;
-    if (role !== "owner") {
-      return res.json({ success: false, message: "Not authorized" });
+    try{
+        const { _id, role } = req.user;
+        if(role !== 'owner'){
+            return res.json({ success: false, message: "Not authorized " });
+        }
+        const cars = await Car.find({ owner: _id });
+        const bookings = await Booking.find({ owner: _id }).populate('car').sort({ createdAt: -1 });    
+        const pendingBookings = bookings.find({ owner: _id, status: 'pending' });
+        const completedBookings = bookings.find({ owner: _id, status: 'confirmed' });
+        // Calculate total earnings
+        const monthlyRevenue = bookings.slice().filter(booking => {
+            booking.status === 'confirmed' 
+        }).reduce((acc, booking) => acc + booking.price, 0);
+
+        const dashboardData = {
+            totalCars: cars.length,
+            totalBookings: bookings.length,
+            pendingBookings: pendingBookings.length,
+            completedBookings: completedBookings.length,
+            recentBookings: bookings.slice(0, 3),
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, message: error.message });
     }
-    const cars = await Car.find({ owner: _id });
-    // Note: Uncomment when Booking model is ready
-    // const bookings = await Booking.find({ owner: _id }).populate('car').sort({ createdAt: -1 });
-    // const pendingBookings = bookings.filter(booking => booking.status === 'pending');
-    // const completedBookings = bookings.filter(booking => booking.status === 'confirmed');
-
-    const dashboardData = {
-      totalCars: cars.length,
-      // totalBookings: bookings.length,
-      // pendingBookings: pendingBookings.length,
-      // completedBookings: completedBookings.length,
-      // recentBookings: bookings.slice(0, 3),
-    };
-
-    res.json({ success: true, dashboardData });
-  } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
-  }
 };
+
+// API to update image of user
+export const updateUserImage = async (req, res) => {
+    try {
+        const { _id } = req.user;
+        const fileBuffer = fs.readFileSync(imageFile.path);
+        const uploadResponse = await imagekit.upload({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: "/users",
+        });
+
+        let optimizedImageUrl = imagekit.url({
+            path: uploadResponse.filePath,
+            transformation: [
+                { width: "1280" }, // Resize to width 1280px
+                { quality: "auto" }, // Auto compression for quality
+                { format: "webp" }, // Convert to modern webp format
+            ]
+        });
+        const image = optimizedImageUrl;
+        await User.findByIdAndUpdate(_id, { image });
+        res.json({ success: true, message: "Image updated successfully", image });
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, message: error.message });
+    }
+}

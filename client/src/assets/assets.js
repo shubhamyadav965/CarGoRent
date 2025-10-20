@@ -178,7 +178,7 @@ export const dummyCarData = [
     location: "Goa",
     description:
       "The BMW X5 is a mid-size luxury SUV produced by BMW. The X5 made its debut in 1999 as the first SUV ever produced by BMW.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-16T07:26:56.215Z",
   },
   {
@@ -196,7 +196,7 @@ export const dummyCarData = [
     location: "Manali",
     description:
       "The Toyota Corolla is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-16T08:33:57.993Z",
   },
   {
@@ -214,7 +214,7 @@ export const dummyCarData = [
     location: "Darjeeling",
     description:
       "The Jeep Wrangler is a mid-size luxury SUV produced by Jeep. The Wrangler made its debut in 2003 as the first SUV ever produced by Jeep.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-16T08:34:39.592Z",
   },
   {
@@ -232,7 +232,7 @@ export const dummyCarData = [
     location: "Delhi",
     description:
       "This is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-17T06:15:47.318Z",
   },
 ];

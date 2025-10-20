@@ -10,7 +10,7 @@ const Cars = () => {
     <div className="flex flex-col items-center py-20 bg-light max-md:px-4">
       <Title
         title="Available Cars"
-        subTitle="Browse our selection of premium vehicles availbale for your next advanture "
+        subTitle="Browse our selection of premium vehicles available for your next adventure "
       />
 
       <div className="flex items-center justify-center w-full max-w-2xl mx-auto">

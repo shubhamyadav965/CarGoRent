@@ -13,8 +13,8 @@ const AddCar = () => {
     pricePerDay: 0,
     category: "",
     transmission: "",
-    fuel_Type: "",
-    seating_Capacity: 0,
+    fuel_type: "",
+    seating_capacity: 0,
     location: "",
     description: "",
   });
@@ -135,8 +135,8 @@ const AddCar = () => {
           <div className="flex flex-col w-full">
             <label>Fuel Type</label>
             <select
-              onChange={(e) => setCar({ ...car, fuel_Type: e.target.value })}
-              value={car.fuel_Type}
+              onChange={(e) => setCar({ ...car, fuel_type: e.target.value })}
+              value={car.fuel_type}
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">Select a fuel type</option>
@@ -148,15 +148,15 @@ const AddCar = () => {
             </select>
           </div>
           <div className="flex flex-col w-full">
-            <label> Seating Capacity ({currency})</label>
+            <label> Seating Capacity</label>
             <input
               type="number"
               placeholder="4"
               required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
-              value={car.seating_Capacity}
+              value={car.seating_capacity}
               onChange={(e) =>
-                setCar({ ...car, seating_Capacity: e.target.value })
+                setCar({ ...car, seating_capacity: e.target.value })
               }
             />
           </div>
