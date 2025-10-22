@@ -57,8 +57,14 @@ export const AppProvider = ({ children }) => {
 
     // useEffect to retrieve the token from localStorage on app load
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        setToken(token);
+        const storedToken = localStorage.getItem('token');
+        if(storedToken){
+            setToken(storedToken);
+            // Set the authorization header immediately on app load
+            axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+        }
+        // Fetch cars on initial load (public data, no auth needed initially)
+        fetchCars();
     }, []);
 
     // useEffect to fetch user data when token is available
@@ -66,6 +72,8 @@ export const AppProvider = ({ children }) => {
         if(token){
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             fetchUser();
+            // Re-fetch cars with authentication for personalized data
+            fetchCars();
         }
     }, [token]);
 

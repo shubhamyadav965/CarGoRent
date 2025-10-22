@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { assets, dummyMyBookingsData } from "../assets/assets";
+import { assets } from "../assets/assets";
 import Title from "../components/Title";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const MyBookings = () => {
-  const currency = import.meta.env.VITE_CURRENCY;
-  const [bookings, setbookings] = useState([]);
+  const { axios, user, currency } = useAppContext();
+
+  const [bookings, setBookings] = useState([]);
+
   const fetchMyBookings = async () => {
-    setbookings(dummyMyBookingsData);
+    try {
+      const { data } = await axios.get("/api/bookings/user-bookings");
+      if (data.success) {
+        setBookings(data.bookings);
+      }
+      else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
-    fetchMyBookings();
-  }, []);
+    user && fetchMyBookings();
+  }, [user]);
 
   return (
     <div className="px-6 md:px-16 lg:px-24 xl:px-32 2xl:px-48 mt-16 text-sm max-w-7xl">
@@ -94,7 +108,7 @@ const MyBookings = () => {
                 <p>Total Price</p>
                 <h1 className="text-2xl font-semibold text-primary">
                   {currency}
-                  {booking.price}
+                  {booking.totalAmount}
                 </h1>
                 <p>Booked on {booking.createdAt.split("T")[0]}</p>
               </div>

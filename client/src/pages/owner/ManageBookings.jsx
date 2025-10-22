@@ -74,7 +74,7 @@ const ManageBookings = () => {
                 </td>
                 <td className="p-3">
                   {currency}
-                  {booking.price}
+                  {booking.totalAmount}
                 </td>
                 <td className="p-3 max-md:hidden">
                   <span className="bg-gray-100 px-3 py-1 rounded-full text-xs">
