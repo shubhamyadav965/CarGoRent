@@ -18,6 +18,7 @@ const Cars = () => {
   const { cars, axios } = useAppContext();
 
   const [input, setinput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const isSearchData = pickupLocation && pickupDate && returnDate;
   const [filteredCars, setFilteredCars] = useState([]);
@@ -38,17 +39,26 @@ const Cars = () => {
   }
 
   const searchCarAvailability = async () => {
-    const { data } = await axios.post("/api/bookings/check-availability", {
-      location: pickupLocation,
-      pickupDate,
-      returnDate,
-    });
-    if (data.success) {
-      setFilteredCars(data.availableCars);
-      if(data.availableCars.length === 0){
-        toast("No cars available for the selected dates and location");
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/bookings/check-availability", {
+        location: pickupLocation,
+        pickupDate,
+        returnDate,
+      });
+      if (data.success) {
+        setFilteredCars(data.availableCars);
+        if(data.availableCars.length === 0){
+          toast("No cars available for the selected dates and location");
+        }
+      } else {
+        toast.error(data.message || "Failed to fetch available cars");
       }
-      return null;
+    } catch (error) {
+      console.error("Error fetching car availability:", error);
+      toast.error("Failed to load available cars. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -105,17 +115,32 @@ const Cars = () => {
         <p className="text-gray-500 xl:px-20 max-w-7xl mx-auto">
           Showing {filteredCars.length} Cars
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 xl:px-20 max-w-7xl mx-auto">
-          {filteredCars.map((car, index) => (
-            <motion.div key={car._id || index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <CarCard car={car} currency="₹" />
-            </motion.div>
-          ))}
-        </div>
+
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        ) : filteredCars.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <img src={assets.car_icon} alt="No cars" className="w-20 h-20 opacity-30 mb-4" />
+            <h3 className="text-xl font-semibold text-gray-700 mb-2">No Cars Available</h3>
+            <p className="text-gray-500">
+              {input ? "Try adjusting your search filters" : "No cars match your criteria"}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 xl:px-20 max-w-7xl mx-auto">
+            {filteredCars.map((car, index) => (
+              <motion.div key={car._id || index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <CarCard car={car} currency="₹" />
+              </motion.div>
+            ))}
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );

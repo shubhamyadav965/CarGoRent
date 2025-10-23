@@ -43,7 +43,7 @@ const ManageCars = () => {
       );
       if (!confirm) return;
 
-      const { data } = await axios.delete("/api/owner/delete-car", { carId });
+      const { data } = await axios.post("/api/owner/delete-car", { data: { carId } });
       if (data.success) {
         toast.success(data.message);
         fetchOwnerCars();

@@ -1,3 +1,17 @@
+# Dependencies
 node_modules/
-server/node_modules/
+
+# Environment variables (CRITICAL - Contains passwords & API keys)
 .env
+.env.local
+.env.*.local
+
+# Upload directories (multer temp files)
+uploads/
+temp/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store

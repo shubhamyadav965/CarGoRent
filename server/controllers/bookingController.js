@@ -28,8 +28,8 @@ export const checkCarAvailability = async (req, res) => {
 
     res.json({ success: true, cars: availableCars });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Check availability error:', error);
+    res.json({ success: false, message: "Failed to check car availability. Please try again." });
   }
 };
 
@@ -63,8 +63,8 @@ export const createBooking = async (req, res) => {
     });
     res.json({ success: true, message: "Booking created successfully" });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Create booking error:', error);
+    res.json({ success: false, message: "Failed to create booking. Please try again." });
   }
 };
 
@@ -77,8 +77,8 @@ export const getUserBookings = async (req, res) => {
       .sort({ createdAt: -1 });
     res.json({ success: true, bookings });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Get user bookings error:', error);
+    res.json({ success: false, message: "Failed to fetch your bookings. Please try again." });
   }
 };
 
@@ -95,8 +95,8 @@ export const getOwnerBookings = async (req, res) => {
       .sort({ createdAt: -1 });
     res.json({ success: true, bookings });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Get owner bookings error:', error);
+    res.json({ success: false, message: "Failed to fetch bookings. Please try again." });
   }
 };
 
@@ -114,7 +114,7 @@ export const updateBookingStatus = async (req, res) => {
     await booking.save();
     res.json({ success: true, message: "Booking status updated" });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Update booking status error:', error);
+    res.json({ success: false, message: "Failed to update booking status. Please try again." });
   }
 };

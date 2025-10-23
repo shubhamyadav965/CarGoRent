@@ -3,8 +3,6 @@ import fs from "fs";
 import User from "../models/User.js";
 import Car from "../models/Car.js";
 import Booking from "../models/Booking.js";
-import { response } from "express";
-import { format } from "path";
 
 //Change Role to Owner
 export const changeRoleToOwner = async (req, res) => {
@@ -13,8 +11,8 @@ export const changeRoleToOwner = async (req, res) => {
     await User.findByIdAndUpdate(_id, { role: "owner" });
     res.json({ success: true, message: "Now you can list cars" });
   } catch (error) {
-    console.error(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Change role to owner error:', error);
+    res.json({ success: false, message: "Failed to change role. Please try again." });
   }
 };
 
@@ -58,8 +56,8 @@ export const addCar = async (req, res) => {
 
     res.json({ success: true, message: "Car Added Successfully" });
   } catch (error) {
-    console.error(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Add car error:', error);
+    res.json({ success: false, message: "Failed to add car. Please try again." });
   }
 };
 
@@ -70,8 +68,8 @@ export const getOwnerCars = async (req, res) => {
     const cars = await Car.find({ owner: _id });
     res.json({ success: true, cars });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Get owner cars error:', error);
+    res.json({ success: false, message: "Failed to fetch your cars. Please try again." });
   }
 };
 
@@ -90,8 +88,8 @@ export const toggleCarAvailability = async (req, res) => {
     await car.save();
     res.json({ success: true, message: "Availability toggled" });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Toggle car availability error:', error);
+    res.json({ success: false, message: "Failed to toggle availability. Please try again." });
   }
 };
 
@@ -110,8 +108,8 @@ export const deleteCar = async (req, res) => {
     await Car.findByIdAndDelete(carId);
     res.json({ success: true, message: "Car deleted successfully" });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Delete car error:', error);
+    res.json({ success: false, message: "Failed to delete car. Please try again." });
   }
 };
 
@@ -140,8 +138,8 @@ export const getDashboardData = async (req, res) => {
         
         res.json({ success: true, dashboardData });
     } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message });
+        console.error('Get dashboard data error:', error);
+        res.json({ success: false, message: "Failed to fetch dashboard data. Please try again." });
     }
 };
 
@@ -168,7 +166,7 @@ export const updateUserImage = async (req, res) => {
         await User.findByIdAndUpdate(_id, { image });
         res.json({ success: true, message: "Image updated successfully", image });
     } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message });
+        console.error('Update user image error:', error);
+        res.json({ success: false, message: "Failed to update image. Please try again." });
     }
 }

@@ -37,8 +37,8 @@ export const registerUser = async (req, res) => {
     const token = generateToken(user._id.toString());
     res.json({ success: true, token });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Register user error:', error);
+    res.json({ success: false, message: "Registration failed. Please try again." });
   }
 };
 
@@ -68,8 +68,8 @@ export const loginUser = async (req, res) => {
     const token = generateToken(user._id.toString()); // toString() is used to convert ObjectId to string
     res.json({ success: true, token });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Login user error:', error);
+    res.json({ success: false, message: "Login failed. Please check your credentials." });
   }
 };
 
@@ -79,8 +79,8 @@ export const getUserData = async (req, res) => {
     const { user } = req;
     res.json({ success: true, user });
   } catch (error) {
-    console.log(error.message);
-    res.json({ success: false, message: error.message });
+    console.error('Get user data error:', error);
+    res.json({ success: false, message: "Failed to fetch user data. Please try again." });
   }
 };
 
@@ -90,7 +90,7 @@ export const getCars = async (req, res) => {
         const cars = await Car.find({ isAvailable: true });
         res.json({ success: true, cars });
     } catch (error) {
-        console.log(error.message);
-        res.json({ success: false, message: error.message });
+        console.error('Get cars error:', error);
+        res.json({ success: false, message: "Failed to load cars. Please try again." });
     }
 }

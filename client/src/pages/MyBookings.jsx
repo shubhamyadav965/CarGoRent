@@ -9,9 +9,11 @@ const MyBookings = () => {
   const { axios, user, currency } = useAppContext();
 
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchMyBookings = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get("/api/bookings/user-bookings");
       if (data.success) {
         setBookings(data.bookings);
@@ -20,12 +22,16 @@ const MyBookings = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || "Failed to load bookings");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    user && fetchMyBookings();
+    if (user) {
+      fetchMyBookings();
+    }
   }, [user]);
 
   return (
@@ -40,6 +46,25 @@ const MyBookings = () => {
         align="left"
       />
 
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      ) : bookings.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <img src={assets.car_icon} alt="No bookings" className="w-20 h-20 opacity-30 mb-4" />
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">No Bookings Yet</h3>
+          <p className="text-gray-500 mb-6">
+            You haven't made any car bookings yet. Browse our available cars to make your first booking!
+          </p>
+          <button
+            onClick={() => window.location.href = '/cars'}
+            className="px-6 py-3 bg-primary hover:bg-primary-dull transition-all text-white rounded-lg font-medium"
+          >
+            Browse Cars
+          </button>
+        </div>
+      ) : (
       <div>
         {bookings.map((booking, index) => (
           <motion.div
@@ -124,6 +149,7 @@ const MyBookings = () => {
           </motion.div>
         ))}
       </div>
+      )}
     </motion.div>
   );
 };

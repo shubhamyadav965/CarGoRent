@@ -165,7 +165,7 @@ const AddCar = () => {
               <option value="">Select a Transmission</option>
               <option value="Automatic">Automatic</option>
               <option value="Manual">Manual</option>
-              <option value="Van">Semi-Automatic</option>
+              <option value="Semi-Automatic">Semi-Automatic</option>
             </select>
           </div>
           <div className="flex flex-col w-full">

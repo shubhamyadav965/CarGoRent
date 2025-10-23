@@ -13,8 +13,26 @@ const CarDetails = () => {
   const [car, setcar] = useState(null);
   const currency = import.meta.env.VITE_CURRENCY;
 
+  // Calculate total price
+  const calculateTotalPrice = () => {
+    if (!pickupDate || !returnDate || !car) return 0;
+    const pickup = new Date(pickupDate);
+    const returnD = new Date(returnDate);
+    if (returnD < pickup) return 0; // Changed from <= to < to allow same day
+    const days = Math.ceil((returnD - pickup) / (1000 * 60 * 60 * 24)) + 1;
+    return days * car.pricePerDay;
+  };
+
+  const totalPrice = calculateTotalPrice();
+  const numberOfDays = pickupDate && returnDate && new Date(returnDate) >= new Date(pickupDate) // Changed > to >=
+    ? Math.ceil((new Date(returnDate) - new Date(pickupDate)) / (1000 * 60 * 60 * 24)) + 1 
+    : 0;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+  
+
     try {
       const { data } = await axios.post("/api/bookings/create-booking", {
         car: id,
@@ -159,6 +177,7 @@ const CarDetails = () => {
               className="border border-borderColor px-3 py-2 rounded-lg"
               id="pickup-date"
               min={new Date().toISOString().split("T")[0]}
+              required
             />
           </div>
 
@@ -168,10 +187,38 @@ const CarDetails = () => {
               type="date"
               className="border border-borderColor px-3 py-2 rounded-lg"
               id="return-date"
+              min={pickupDate || new Date().toISOString().split("T")[0]}
+              required
             />
           </div>
 
-          <button className="w-full bg-primary hover:bg-primary-dull transition-all py-3 font-medium text-white rounded-xl cursor-pointer">
+          {/* Total Price Display */}
+          {numberOfDays > 0 && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-light p-4 rounded-lg space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Price per day:</span>
+                <span className="font-medium">{currency} {car.pricePerDay}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Number of days:</span>
+                <span className="font-medium">{numberOfDays} {numberOfDays === 1 ? 'day' : 'days'}</span>
+              </div>
+              <hr className="border-borderColor my-2" />
+              <div className="flex justify-between text-lg font-semibold text-gray-800">
+                <span>Total Price:</span>
+                <span className="text-primary">{currency} {totalPrice}</span>
+              </div>
+            </motion.div>
+          )}
+
+          <button 
+            type="submit"
+            disabled={!pickupDate || !returnDate || numberOfDays <= 0}
+            className="w-full bg-primary hover:bg-primary-dull transition-all py-3 font-medium text-white rounded-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
             Book Now
           </button>
           <p className="text-center text-sm">
