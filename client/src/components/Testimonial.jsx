@@ -1,6 +1,7 @@
 import React from "react";
 import Title from "./Title";
 import { assets } from "../assets/assets";
+import { motion } from "motion/react";
 
 const Testimonial = () => {
   const testimonials = [
@@ -35,7 +36,8 @@ const Testimonial = () => {
 
   const StarRating = ({ rating }) => {
     return (
-      <div className="flex items-center gap-1">
+      <div 
+        className="flex items-center gap-1">
         {Array.from({ length: 5 }, (_, index) => (
           <svg
             key={index}
@@ -63,7 +65,11 @@ const Testimonial = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
           {testimonials.map((testimonial) => (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: testimonial.id * 0.2, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
               key={testimonial.id}
               className="group p-8 rounded-2xl bg-white shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-500 cursor-pointer hover:-translate-y-2"
             >
@@ -114,7 +120,7 @@ const Testimonial = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

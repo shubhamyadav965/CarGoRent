@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { assets, cityList } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
+import { motion } from 'motion/react';
 
 const Hero = () => {
   const { pickupDate, setPickupDate, returnDate, setReturnDate, navigate } = useAppContext();
@@ -12,12 +13,24 @@ const Hero = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center gap-14 bg-gradient-to-br from-light via-blue-50 to-orange-50 text-center px-4">
-      <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+    <motion.div 
+    initial={{ opacity: 0 }}
+    animate={{ y: 0, opacity: 1 }}
+    transition={{ duration: 0.8 }}
+    className="h-screen flex flex-col justify-center items-center gap-14 bg-gradient-to-br from-light via-blue-50 to-orange-50 text-center px-4">
+      <motion.h1 
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
         Luxury Cars on Rent
-      </h1>
+      </motion.h1>
 
-      <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 rounded-2xl md:rounded-full w-full max-w-80 md:max-w-200 bg-white shadow-2xl shadow-primary/10 border border-gray-100">
+      <motion.form 
+        initial={{ scale:0.95, opacity:0, y:50 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        onSubmit={handleSearch} className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 rounded-2xl md:rounded-full w-full max-w-80 md:max-w-200 bg-white shadow-2xl shadow-primary/10 border border-gray-100">
         <div className="flex flex-col md:flex-row items-start md:item-start md:items-center gap-10 min-md:ml-8">
           <div className="flex flex-col items-start gap-2">
             <select
@@ -56,18 +69,25 @@ const Hero = () => {
             />
           </div>
         </div>
-        <button className="flex items-center justify-center gap-1 px-9 py-3 max-sm:mt-4 bg-primary hover:bg-primary-dull text-white rounded-full cursor-pointer">
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center justify-center gap-1 px-9 py-3 max-sm:mt-4 bg-primary hover:bg-primary-dull text-white rounded-full cursor-pointer">
           <img
             src={assets.search_icon}
             alt="Search"
             className="brightness-300"
           />
           Search
-        </button>
-      </form>
+        </motion.button>
+      </motion.form>
 
-      <img src={assets.main_car} alt="Car" className="max-h-74" />
-    </div>
+      <motion.img
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.8 }}
+        src={assets.main_car} alt="Car" className="max-h-74" />
+    </motion.div>
   );
 };
 

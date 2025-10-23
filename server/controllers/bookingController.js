@@ -51,7 +51,7 @@ export const createBooking = async (req, res) => {
     const picked = new Date(pickupDate);
     const returned = new Date(returnDate);
     const noOfDays = Math.ceil((returned - picked) / (1000 * 60 * 60 * 24)) + 1;
-    const price = carData.pricePerDay * noOfDays;
+    const totalAmount = carData.pricePerDay * noOfDays;
 
     await Booking.create({
       car,
@@ -59,7 +59,7 @@ export const createBooking = async (req, res) => {
       user: _id,
       pickupDate,
       returnDate,
-      price,
+      totalAmount,
     });
     res.json({ success: true, message: "Booking created successfully" });
   } catch (error) {

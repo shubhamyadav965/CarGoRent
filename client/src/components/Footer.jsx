@@ -1,25 +1,50 @@
 import React from "react";
 import { assets } from "../assets/assets";
+import { motion } from "motion/react";
 
 const Footer = () => {
   return (
-    <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-20 py-12 bg-gray-50 text-sm text-gray-600">
-      <div className="max-w-7xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="px-6 md:px-16 lg:px-24 xl:px-32 mt-20 py-12 bg-gray-50 text-sm text-gray-600"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-7xl mx-auto"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 pb-8 border-b border-gray-200">
           {/* Logo and Description - Takes more space */}
           <div className="lg:col-span-5">
-            <img
+            <motion.img
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
               src={assets.logo}
               alt="CarGoRent Logo"
               className="h-20 md:h-24 w-auto object-contain mb-4"
               style={{ mixBlendMode: "multiply" }}
             />
-            <p className="max-w-sm text-gray-600 leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="max-w-sm text-gray-600 leading-relaxed"
+            >
               Premium car rental service offering a wide range of vehicles for
               all your travel needs. Experience luxury and comfort on the road
               with us.
-            </p>
-            <div className="flex items-center gap-4 mt-6">
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="flex items-center gap-4 mt-6"
+            >
               <a href="#" className="hover:opacity-70 transition-opacity">
                 <img
                   src={assets.facebook_logo}
@@ -44,11 +69,16 @@ const Footer = () => {
               <a href="#" className="hover:opacity-70 transition-opacity">
                 <img src={assets.gmail_logo} alt="gmail" className="w-5 h-5" />
               </a>
-            </div>
+            </motion.div>
           </div>
 
           {/* Quick Links */}
-          <div className="lg:col-span-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-2"
+          >
             <h2 className="text-base font-semibold text-gray-800 mb-4">
               Quick Links
             </h2>
@@ -74,10 +104,15 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Resources */}
-          <div className="lg:col-span-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="lg:col-span-2"
+          >
             <h2 className="text-base font-semibold text-gray-800 mb-4">
               Resources
             </h2>
@@ -103,10 +138,15 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div className="lg:col-span-3">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="lg:col-span-3"
+          >
             <h2 className="text-base font-semibold text-gray-800 mb-4">
               Contact Us
             </h2>
@@ -138,7 +178,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </motion.div>
         </div>
 
         {/* Bottom Bar */}
@@ -168,8 +208,8 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

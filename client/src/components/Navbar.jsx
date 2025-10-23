@@ -3,6 +3,7 @@ import { assets, menuLinks } from "../assets/assets";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const { setShowLogin, user, logout, isOwner, axios, setIsOwner } = useAppContext();
@@ -26,15 +27,19 @@ const Navbar = () => {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className={` flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 text-gray-600 border-b border-borderColor relative transition-all ${
         location.pathname === "/" ? "bg-light" : "bg-white"
       }`}
     >
       <Link to="/" className="flex items-center">
-        <img
+        <motion.img
+          whileHover={{ scale: 1.05 }}
           src={assets.logo}
-          alt="CarGoRent Logo"
+          alt="Logo"
           className="h-28 md:h-40 w-auto object-contain"
           style={{ mixBlendMode: "multiply" }}
         />
@@ -88,7 +93,7 @@ const Navbar = () => {
       >
         <img src={open ? assets.close_icon : assets.menu_icon} alt="menu" />
       </button>
-    </div>
+    </motion.div>
   );
 };
 

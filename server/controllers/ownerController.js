@@ -2,6 +2,7 @@ import imagekit from "../configs/imageKit.js";
 import fs from "fs";
 import User from "../models/User.js";
 import Car from "../models/Car.js";
+import Booking from "../models/Booking.js";
 import { response } from "express";
 import { format } from "path";
 
@@ -119,16 +120,14 @@ export const getDashboardData = async (req, res) => {
     try{
         const { _id, role } = req.user;
         if(role !== 'owner'){
-            return res.json({ success: false, message: "Not authorized " });
+            return res.json({ success: false, message: "Not authorized" });
         }
         const cars = await Car.find({ owner: _id });
         const bookings = await Booking.find({ owner: _id }).populate('car').sort({ createdAt: -1 });    
-        const pendingBookings = bookings.find({ owner: _id, status: 'pending' });
-        const completedBookings = bookings.find({ owner: _id, status: 'confirmed' });
+        const pendingBookings = bookings.filter(booking => booking.status === 'pending');
+        const completedBookings = bookings.filter(booking => booking.status === 'confirmed');
         // Calculate total earnings
-        const monthlyRevenue = bookings.slice().filter(booking => {
-            booking.status === 'confirmed' 
-        }).reduce((acc, booking) => acc + booking.price, 0);
+        const monthlyRevenue = bookings.filter(booking => booking.status === 'confirmed').reduce((acc, booking) => acc + booking.totalAmount, 0);
 
         const dashboardData = {
             totalCars: cars.length,
@@ -136,7 +135,10 @@ export const getDashboardData = async (req, res) => {
             pendingBookings: pendingBookings.length,
             completedBookings: completedBookings.length,
             recentBookings: bookings.slice(0, 3),
+            monthlyRevenue: monthlyRevenue
         }
+        
+        res.json({ success: true, dashboardData });
     } catch (error) {
         console.log(error.message);
         res.json({ success: false, message: error.message });
