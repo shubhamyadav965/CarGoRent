@@ -14,7 +14,7 @@ pipeline{
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/shubhamyadav965/CarGoRent.git'
+                git branch: 'main', url: 'https://github.com/shubhamyadav965/CarGoRent.git'
             }
         }
 
